@@ -12,7 +12,7 @@ export const Contact: React.FC = () => {
             <TubesBackground />
          </div>
 
-         <div className="w-full max-w-[1000px] mx-auto px-6 relative z-10 py-24 pointer-events-none">
+         <div className="w-full max-w-[1000px] mx-auto px-6 relative z-10 py-24">
             <Reveal>
                <div className="text-center mb-12 pointer-events-auto">
                   <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">Empecemos a automatizar.</h2>
