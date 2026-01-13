@@ -13,10 +13,10 @@ export const Hero: React.FC = () => {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center bg-brand-petrol text-white overflow-hidden pt-20 md:pt-0">
 
-      {/* Background Interactive Shader */}
-      <div className="absolute inset-0 z-0 opacity-40 pointer-events-none md:pointer-events-auto">
+      {/* Background Interactive Shader - Removed as per request to clear robot view */}
+      {/* <div className="absolute inset-0 z-0 opacity-40 pointer-events-none md:pointer-events-auto">
         <DotScreenShader />
-      </div>
+      </div> */}
 
       {/* Spotlight Effect */}
       <Spotlight
