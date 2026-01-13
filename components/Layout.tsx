@@ -26,7 +26,7 @@ export const Layout: React.FC<{ children: React.ReactNode; hideFooter?: boolean 
               alt="ZyrIA Logo"
               fetchpriority="high"
               className="h-10 md:h-12 w-auto object-contain transition-all duration-300"
-              style={{ filter: "drop-shadow(0 0 15px rgba(20, 163, 154, 0.6)) brightness(1.2)" }}
+              style={{ filter: "drop-shadow(0 0 20px rgba(74, 222, 128, 0.7)) brightness(1.3) saturate(1.2)" }}
             />
           </div>
         </div>

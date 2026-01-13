@@ -95,7 +95,7 @@ export function TubesBackground({
         >
             <canvas
                 ref={canvasRef}
-                className="absolute inset-0 w-full h-full block opacity-60" // Reduced opacity slightly to blend better
+                className="absolute inset-0 w-full h-full block opacity-80" // Reduced opacity slightly to blend better
                 style={{ touchAction: 'none' }}
             />
 
