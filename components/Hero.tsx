@@ -70,8 +70,8 @@ export const Hero: React.FC = () => {
         {/* Right Content - 3D Robot */}
         <div className="relative h-[400px] md:h-[600px] lg:h-[800px] w-full order-1 lg:order-2 flex items-center justify-center z-10">
 
-          {/* Bottom Fade only */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 z-20 bg-gradient-to-t from-brand-petrol to-transparent pointer-events-none"></div>
+          {/* Bottom Fade only - Increased height for smoother transition */}
+          <div className="absolute bottom-0 left-0 right-0 h-48 md:h-64 z-20 bg-gradient-to-t from-brand-petrol via-brand-petrol/60 to-transparent pointer-events-none"></div>
 
           <Suspense fallback={
             <div className="w-full h-full flex items-center justify-center">

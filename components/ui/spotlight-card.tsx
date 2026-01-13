@@ -16,9 +16,8 @@ const glowColorMap = {
   green: { base: 120, spread: 200 },
   red: { base: 0, spread: 200 },
   orange: { base: 30, spread: 200 },
-  // Nebula Aurora Custom Colors
-  lime: { base: 90, spread: 80 },  // Matches brand-lime
-  teal: { base: 175, spread: 100 } // Matches brand-teal
+  lime: { base: 90, spread: 80 },  // Brand Lime
+  teal: { base: 175, spread: 100 } // Brand Teal
 };
 
 const sizeMap = {
@@ -27,47 +26,35 @@ const sizeMap = {
   lg: 'w-80 h-96'
 };
 
-export const SpotlightCard: React.FC<GlowCardProps> = ({ 
-  children, 
-  className = '', 
-  glowColor = 'teal',
+const GlowCard: React.FC<GlowCardProps> = ({
+  children,
+  className = '',
+  glowColor = 'blue',
   size = 'md',
   width,
   height,
-  customSize = true // Default to true for responsiveness in grids
+  customSize = false
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let frameId: number;
-
     const syncPointer = (e: PointerEvent) => {
-      // Use requestAnimationFrame to throttle updates and prevent layout thrashing
-      if (frameId) {
-        cancelAnimationFrame(frameId);
-      }
+      const { clientX: x, clientY: y } = e;
 
-      frameId = requestAnimationFrame(() => {
-        if (cardRef.current) {
-          const { clientX: x, clientY: y } = e;
-          // Calculate position relative to the viewport
-          cardRef.current.style.setProperty('--x', x.toFixed(2));
-          cardRef.current.style.setProperty('--xp', (x / window.innerWidth).toFixed(2));
-          cardRef.current.style.setProperty('--y', y.toFixed(2));
-          cardRef.current.style.setProperty('--yp', (y / window.innerHeight).toFixed(2));
-        }
-      });
+      if (cardRef.current) {
+        cardRef.current.style.setProperty('--x', x.toFixed(2));
+        cardRef.current.style.setProperty('--xp', (x / window.innerWidth).toFixed(2));
+        cardRef.current.style.setProperty('--y', y.toFixed(2));
+        cardRef.current.style.setProperty('--yp', (y / window.innerHeight).toFixed(2));
+      }
     };
 
     document.addEventListener('pointermove', syncPointer);
-    return () => {
-      document.removeEventListener('pointermove', syncPointer);
-      if (frameId) cancelAnimationFrame(frameId);
-    };
+    return () => document.removeEventListener('pointermove', syncPointer);
   }, []);
 
-  const { base, spread } = glowColorMap[glowColor];
+  const { base, spread } = glowColorMap[glowColor] || glowColorMap.blue;
 
   // Determine sizing
   const getSizeClasses = () => {
@@ -81,11 +68,11 @@ export const SpotlightCard: React.FC<GlowCardProps> = ({
     const baseStyles: any = {
       '--base': base,
       '--spread': spread,
-      '--radius': '24', // Matches rounded-3xl (24px)
-      '--border': '2',
-      '--backdrop': 'rgba(255, 255, 255, 0.03)', // Matches glass-card background
-      '--backup-border': 'rgba(255, 255, 255, 0.1)',
-      '--size': '250',
+      '--radius': '14',
+      '--border': '3',
+      '--backdrop': 'hsl(0 0% 60% / 0.12)',
+      '--backup-border': 'var(--backdrop)',
+      '--size': '200',
       '--outer': '1',
       '--border-size': 'calc(var(--border, 2) * 1px)',
       '--spotlight-size': 'calc(var(--size, 150) * 1px)',
@@ -94,7 +81,7 @@ export const SpotlightCard: React.FC<GlowCardProps> = ({
         var(--spotlight-size) var(--spotlight-size) at
         calc(var(--x, 0) * 1px)
         calc(var(--y, 0) * 1px),
-        hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--bg-spot-opacity, 0.15)), transparent
+        hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--bg-spot-opacity, 0.1)), transparent
       )`,
       backgroundColor: 'var(--backdrop, transparent)',
       backgroundSize: 'calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)))',
@@ -142,7 +129,6 @@ export const SpotlightCard: React.FC<GlowCardProps> = ({
         hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 50) * 1%) / var(--border-spot-opacity, 1)), transparent 100%
       );
       filter: brightness(2);
-      z-index: 2;
     }
     
     [data-glow]::after {
@@ -152,7 +138,6 @@ export const SpotlightCard: React.FC<GlowCardProps> = ({
         calc(var(--y, 0) * 1px),
         hsl(0 100% 100% / var(--border-light-opacity, 1)), transparent 100%
       );
-      z-index: 2;
     }
     
     [data-glow] [data-glow] {
@@ -184,18 +169,22 @@ export const SpotlightCard: React.FC<GlowCardProps> = ({
         className={`
           ${getSizeClasses()}
           ${!customSize ? 'aspect-[3/4]' : ''}
-          rounded-3xl
+          rounded-2xl 
           relative 
           grid 
           grid-rows-[1fr_auto] 
+          shadow-[0_1rem_2rem_-1rem_black] 
+          p-4 
+          gap-4 
+          backdrop-blur-[5px]
           ${className}
         `}
       >
         <div ref={innerRef} data-glow></div>
-        <div className="relative z-10 w-full h-full flex flex-col">
-          {children}
-        </div>
+        {children}
       </div>
     </>
   );
 };
+
+export { GlowCard }

@@ -30,6 +30,37 @@ export function NavBar({ items, className }: NavBarProps) {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
+  useEffect(() => {
+    const sections = items.map(item => item.url.replace('#', ''))
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -35% 0px", // Detect active section when it's near the middle-top
+      threshold: 0.1
+    }
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id
+          const matchingItem = items.find(item => item.url === `#${id}`)
+          if (matchingItem) {
+            setActiveTab(matchingItem.name)
+          }
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions)
+
+    sections.forEach(id => {
+      const element = document.getElementById(id)
+      if (element) observer.observe(element)
+    })
+
+    return () => observer.disconnect()
+  }, [items])
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: NavItem) => {
     e.preventDefault();
     setActiveTab(item.name);
