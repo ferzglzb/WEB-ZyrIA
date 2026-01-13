@@ -4,7 +4,7 @@ import { NavBar } from './ui/tubelight-navbar';
 import { MinimalFooter } from './ui/minimal-footer';
 import { Home, User, Briefcase, FileText, Settings, Send } from 'lucide-react';
 
-export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const Layout: React.FC<{ children: React.ReactNode; hideFooter?: boolean }> = ({ children, hideFooter = false }) => {
 
   const navItems = [
     { name: 'Inicio', url: '#', icon: Home },
@@ -41,7 +41,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </main>
 
       {/* Footer */}
-      <MinimalFooter />
+      {!hideFooter && <MinimalFooter />}
     </div>
   );
 };
