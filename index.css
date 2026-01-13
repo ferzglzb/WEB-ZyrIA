@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #F7FBFA;
+  color: #1F2D2B;
+}
+
+/* Clean Card style for Light Mode */
+.clean-card {
+  background: #FFFFFF;
+  border: 1px solid #E2ECE9;
+  box-shadow: 0 4px 20px rgba(14, 58, 58, 0.05);
+  transition: all 0.3s ease;
+}
+
+.clean-card:hover {
+  border-color: #14A39A;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(14, 58, 58, 0.1);
+}
+
+/* Dark Card style for Petrol backgrounds */
+.dark-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
