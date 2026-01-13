@@ -1,7 +1,7 @@
 import {
     FacebookIcon,
     GithubIcon,
-    Grid2X2Plus,
+    LayoutGrid,
     InstagramIcon,
     LinkedinIcon,
     TwitterIcon,
@@ -91,7 +91,7 @@ export function MinimalFooter() {
                         <a href="#" className="w-max opacity-90">
                             {/* Reemplazar con Logo si es necesario, usando texto por ahora o icono */}
                             <div className="flex items-center gap-2 font-bold text-xl">
-                                <Grid2X2Plus className="size-8 text-brand-action" />
+                                <LayoutGrid className="size-8 text-brand-action" />
                                 <span>ZyrIA</span>
                             </div>
                         </a>
