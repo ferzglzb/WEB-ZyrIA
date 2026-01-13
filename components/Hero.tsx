@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Button } from './ui/Button';
 import { Reveal } from './ui/Reveal';
-import { SplineScene } from './ui/spline-scene';
+// import { SplineScene } from './ui/spline-scene'; // Removed sync import
 import { Spotlight } from './ui/spotlight';
 import { DotScreenShader } from './ui/dot-shader-background';
 import { Typewriter } from './ui/typewriter';
+import { Loader2 } from 'lucide-react';
+
+const SplineScene = React.lazy(() => import('./ui/spline-scene').then(module => ({ default: module.SplineScene })));
 
 export const Hero: React.FC = () => {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center bg-brand-petrol text-white overflow-hidden pt-20 md:pt-0">
-      
+
       {/* Background Interactive Shader */}
       <div className="absolute inset-0 z-0 opacity-40 pointer-events-none md:pointer-events-auto">
         <DotScreenShader />
@@ -18,11 +21,11 @@ export const Hero: React.FC = () => {
       {/* Spotlight Effect */}
       <Spotlight
         className="-top-40 left-0 md:left-60 md:-top-20 z-0 opacity-60"
-        fill="#4ADE80" 
+        fill="#4ADE80"
       />
 
       <div className="max-w-[1400px] w-full mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-8 items-center relative z-10 h-full">
-        
+
         {/* Left Content */}
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1 pb-12 lg:pb-0 z-20">
           <Reveal>
@@ -30,13 +33,13 @@ export const Hero: React.FC = () => {
               Inteligencia Artificial para Negocios Reales
             </div>
             <h1 className="text-4xl md:text-6xl xl:text-7xl font-bold tracking-tight mb-8 leading-[1.15] text-white drop-shadow-lg">
-              Automatiza <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-action to-brand-lime font-extrabold">
-                <Typewriter 
-                   words={["Conversaciones", "Procesos", "Ventas", "Soportes"]} 
-                   speed={100} 
-                   delayBetweenWords={2000} 
-                   cursor={true}
+              Automatiza <br />
+              <span className="text-brand-action md:text-transparent md:bg-clip-text md:bg-gradient-to-r md:from-brand-action md:to-brand-lime font-extrabold block min-h-[1.2em]">
+                <Typewriter
+                  words={["Conversaciones", "Procesos", "Ventas", "Soportes"]}
+                  speed={100}
+                  delayBetweenWords={2000}
+                  cursor={true}
                 />
               </span>
             </h1>
@@ -66,14 +69,20 @@ export const Hero: React.FC = () => {
 
         {/* Right Content - 3D Robot */}
         <div className="relative h-[400px] md:h-[600px] lg:h-[800px] w-full order-1 lg:order-2 flex items-center justify-center z-10">
-             
-             {/* Bottom Fade only */}
-             <div className="absolute bottom-0 left-0 right-0 h-32 z-20 bg-gradient-to-t from-brand-petrol to-transparent pointer-events-none"></div>
 
-             <SplineScene 
-               scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-               className="w-full h-full scale-100 md:scale-110 lg:scale-125"
-             />
+          {/* Bottom Fade only */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 z-20 bg-gradient-to-t from-brand-petrol to-transparent pointer-events-none"></div>
+
+          <Suspense fallback={
+            <div className="w-full h-full flex items-center justify-center">
+              <Loader2 className="w-10 h-10 text-brand-action animate-spin" />
+            </div>
+          }>
+            <SplineScene
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              className="w-full h-full scale-100 md:scale-110 lg:scale-125"
+            />
+          </Suspense>
         </div>
       </div>
     </section>
