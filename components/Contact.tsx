@@ -8,11 +8,11 @@ export const Contact: React.FC = () => {
    return (
       <section id="contact" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-brand-petrol">
 
-         <div className="absolute inset-0 z-0">
+         <div className="absolute inset-0 z-0 pointer-events-none">
             <TubesBackground />
          </div>
 
-         <div className="w-full max-w-[1000px] mx-auto px-6 relative z-10 py-24">
+         <div className="w-full max-w-[1000px] mx-auto px-6 relative z-10 py-24 pointer-events-none">
             <Reveal>
                <div className="text-center mb-12 pointer-events-auto">
                   <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">Empecemos a automatizar.</h2>

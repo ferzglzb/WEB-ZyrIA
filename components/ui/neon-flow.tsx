@@ -92,11 +92,10 @@ export function TubesBackground({
     return (
         <div
             className={cn("relative w-full h-full min-h-[400px] overflow-hidden bg-brand-petrol", className)}
-            onClick={handleClick}
         >
             <canvas
                 ref={canvasRef}
-                className="absolute inset-0 w-full h-full block"
+                className="absolute inset-0 w-full h-full block opacity-60" // Reduced opacity slightly to blend better
                 style={{ touchAction: 'none' }}
             />
 
