@@ -5,7 +5,7 @@ export const config = {
 const WEBHOOK_URL = 'https://n8n-n8n.1qsfn3.easypanel.host/webhook/e7fd61a8-7bdc-47b3-b4c8-bd4973ee64f2';
 
 export default async function handler(req: Request) {
-    // Only allow POST requests from the frontend
+    // Only allow POST requests
     if (req.method !== 'POST') {
         return new Response('Method not allowed', { status: 405 });
     }
@@ -14,20 +14,13 @@ export default async function handler(req: Request) {
         // Get the form data from the request
         const formData = await req.json();
 
-        // Build query string for GET request to n8n
-        const params = new URLSearchParams({
-            nombre: formData.nombre || '',
-            empresa: formData.empresa || '',
-            email: formData.email || '',
-            telefono: formData.telefono || '',
-            mensaje: formData.mensaje || ''
-        });
-
-        // Make GET request to n8n webhook with query parameters
-        const webhookUrlWithParams = `${WEBHOOK_URL}?${params.toString()}`;
-
-        const response = await fetch(webhookUrlWithParams, {
-            method: 'GET',
+        // Forward the request to the n8n webhook as POST with JSON
+        const response = await fetch(WEBHOOK_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
         });
 
         // Check if the webhook responded successfully
