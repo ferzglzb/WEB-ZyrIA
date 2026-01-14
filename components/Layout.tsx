@@ -24,8 +24,10 @@ export const Layout: React.FC<{ children: React.ReactNode; hideFooter?: boolean 
             <img
               src="https://fbmqjdjpjfvtadcahzcw.supabase.co/storage/v1/object/sign/ZyrIA%20WEB/LOGO%20PNG.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jODcyOWU2MS0zMTAwLTQyYTYtYjMwZC01NDQ2NzcxZDNiMDUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJaeXJJQSBXRUIvTE9HTyBQTkcucG5nIiwiaWF0IjoxNzY4MjcxNjM3LCJleHAiOjE3OTk4MDc2Mzd9.MbNyCqgdEQ5GrBiiHF1e0faOL2GgKEpTcveL34j8tLg"
               alt="ZyrIA Logo"
+              width="165"
+              height="48"
               fetchpriority="high"
-              className="h-10 md:h-12 w-auto object-contain transition-all duration-300"
+              className="h-10 md:h-12 w-auto object-contain"
               style={{ filter: "drop-shadow(0 0 20px rgba(74, 222, 128, 0.7)) brightness(1.3) saturate(1.2)" }}
             />
           </div>

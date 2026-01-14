@@ -1,22 +1,45 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect, useRef } from 'react';
 import { Button } from './ui/Button';
 import { Reveal } from './ui/Reveal';
-// import { SplineScene } from './ui/spline-scene'; // Removed sync import
 import { Spotlight } from './ui/spotlight';
-import { DotScreenShader } from './ui/dot-shader-background';
 import { Typewriter } from './ui/typewriter';
 import { Loader2 } from 'lucide-react';
 
+// Lazy load Spline only when needed
 const SplineScene = React.lazy(() => import('./ui/spline-scene').then(module => ({ default: module.SplineScene })));
 
 export const Hero: React.FC = () => {
+  const [shouldLoadSpline, setShouldLoadSpline] = useState(false);
+  const robotContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Only create observer if Spline hasn't been loaded yet
+    if (shouldLoadSpline) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // Load Spline when robot container is about to be visible
+          if (entry.isIntersecting) {
+            setShouldLoadSpline(true);
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        rootMargin: '200px', // Start loading 200px before it's visible
+      }
+    );
+
+    if (robotContainerRef.current) {
+      observer.observe(robotContainerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [shouldLoadSpline]);
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center bg-brand-petrol text-white overflow-hidden pt-20 md:pt-0">
-
-      {/* Background Interactive Shader - Removed as per request to clear robot view */}
-      {/* <div className="absolute inset-0 z-0 opacity-40 pointer-events-none md:pointer-events-auto">
-        <DotScreenShader />
-      </div> */}
 
       {/* Spotlight Effect */}
       <Spotlight
@@ -67,22 +90,37 @@ export const Hero: React.FC = () => {
           </Reveal>
         </div>
 
-        {/* Right Content - 3D Robot */}
-        <div className="relative h-[300px] md:h-[550px] lg:h-[800px] w-full order-1 lg:order-2 flex items-center justify-center z-10">
-
-          {/* Bottom Fade only - Increased height for smoother transition */}
+        {/* Right Content - 3D Robot with Lazy Loading */}
+        <div
+          ref={robotContainerRef}
+          className="relative h-[300px] md:h-[550px] lg:h-[800px] w-full order-1 lg:order-2 flex items-center justify-center z-10"
+        >
+          {/* Bottom Fade */}
           <div className="absolute bottom-0 left-0 right-0 h-48 md:h-64 z-20 bg-gradient-to-t from-brand-petrol via-brand-petrol/60 to-transparent pointer-events-none"></div>
 
-          <Suspense fallback={
+          {!shouldLoadSpline ? (
+            // Placeholder image - loads instantly
             <div className="w-full h-full flex items-center justify-center">
-              <Loader2 className="w-10 h-10 text-brand-action animate-spin" />
+              <img
+                src="/robot-placeholder.webp"
+                alt="ZyrIA AI Robot"
+                className="w-full h-full object-contain scale-90 md:scale-110 lg:scale-125 opacity-80"
+                loading="eager"
+              />
             </div>
-          }>
-            <SplineScene
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="w-full h-full scale-90 md:scale-110 lg:scale-125"
-            />
-          </Suspense>
+          ) : (
+            // Load actual 3D Spline scene
+            <Suspense fallback={
+              <div className="w-full h-full flex items-center justify-center">
+                <Loader2 className="w-10 h-10 text-brand-action animate-spin" />
+              </div>
+            }>
+              <SplineScene
+                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                className="w-full h-full scale-90 md:scale-110 lg:scale-125"
+              />
+            </Suspense>
+          )}
         </div>
       </div>
     </section>
