@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, ArrowRight, Loader2, CheckCircle } from 'lucide-react';
 
-const WEBHOOK_URL = 'https://n8n-n8n.1qsfn3.easypanel.host/webhook/e7fd61a8-7bdc-47b3-b4c8-bd4973ee64f2';
+const WEBHOOK_URL = '/api/contact';
 
 export const Contact: React.FC = () => {
    const [formData, setFormData] = useState({
